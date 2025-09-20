@@ -6,6 +6,7 @@ import { v4 } from "uuid"
 
 function Contacts() {
     const [contacts,setContacts] = useState([])
+    const [alert,setAlert] = useState("")
     const [contact ,setContact] = useState(
         {
           id:"",
@@ -25,10 +26,20 @@ function Contacts() {
 
     const AddHandler = () =>{
         if(!contact.name || !contact.lastName || !contact.email || !contact.phone){
-        alert("please Enter Valid Data!")
+        setAlert("please Enter Valid Data!")
+        return;
         }
+        setAlert("")
         const newContact = {...contact,id:v4()}
         setContacts((contacts)=>[...contacts,newContact])
+        setContact(
+          {
+            name:"", 
+          lastName:"",  
+          email:"",
+          phone:"",
+          }
+        )
     }
   return (
     <div> 
@@ -45,6 +56,7 @@ function Contacts() {
             ))}
         <button onClick={AddHandler}>Add Contact</button>
     </div>
+    {alert && <p>{alert}</p>}
     <ContactList contacts={contacts}/>
     </div>
   )
