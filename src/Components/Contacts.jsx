@@ -1,10 +1,14 @@
 import { useState } from "react"
 import inputs from "../Constants/inputs"
+import ContactList from "./ContactList"
+import { v4 } from "uuid"
 
 
 function Contacts() {
+    const [contacts,setContacts] = useState([])
     const [contact ,setContact] = useState(
         {
+          id:"",
           name:"", 
           lastName:"",  
           email:"",
@@ -20,9 +24,14 @@ function Contacts() {
     }
 
     const AddHandler = () =>{
-        console.log(contact);
+        if(!contact.name || !contact.lastName || !contact.email || !contact.phone){
+        alert("please Enter Valid Data!")
+        }
+        const newContact = {...contact,id:v4()}
+        setContacts((contacts)=>[...contacts,newContact])
     }
   return (
+    <div> 
     <div>
         {inputs.map((input,index)=>(
             <input 
@@ -35,6 +44,8 @@ function Contacts() {
             />
             ))}
         <button onClick={AddHandler}>Add Contact</button>
+    </div>
+    <ContactList contacts={contacts}/>
     </div>
   )
 }
